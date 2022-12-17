@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<String> resourceNotFoundExceptionHandler(ResourceNotFoundException ex) {
-		String message = ex.getMessage();
+	@ExceptionHandler(RuntimeException.class)
+	public ResponseEntity<String> resourceNotFoundExceptionHandler(RuntimeException ex) {
+		String message ="Improper input data";
 		return new ResponseEntity<String>(message, HttpStatus.NOT_FOUND);
 	}
 }
