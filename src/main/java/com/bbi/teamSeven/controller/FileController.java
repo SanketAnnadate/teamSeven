@@ -1,5 +1,7 @@
 package com.bbi.teamSeven.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,8 @@ public class FileController {
 	FileService fileService;
 	
 	@GetMapping("/getfileByCategory")
-	public ResponseEntity<FileBean> getFileByCategory(@RequestParam(required = false, name = "name") String name,@RequestParam(required = false, name = "category") String category ){
-		return new ResponseEntity<FileBean>(fileService.getFileByCategoryService(name,category),HttpStatus.OK);
+	public ResponseEntity<List<FileBean>> getFileByCategory(@RequestParam(required = false, name = "name") String name,@RequestParam(required = false, name = "category") String category ){
+		return new ResponseEntity<List<FileBean>>(fileService.getFileByCategoryService(name,category),HttpStatus.OK);
 	}
 	
 	@GetMapping("/getfileByAuthor")
@@ -37,5 +39,10 @@ public class FileController {
 	@PostMapping("/createfile")
 	public ResponseEntity<FileBean> createFile(@RequestBody FileBean fileBean){
 		return new ResponseEntity<FileBean>(fileService.createFile(fileBean),HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/getfile")
+	public ResponseEntity<List<FileBean>> getFile(@RequestParam(required = false, name = "name") String name){
+		return new ResponseEntity<List<FileBean>>(fileService.getFile(name),HttpStatus.OK);
 	}
 }

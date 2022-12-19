@@ -1,5 +1,8 @@
 package com.bbi.teamSeven.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +20,10 @@ public class FileService implements FileServiceInterface{
 	@Autowired
 	FileRepository fileRepository;
 	@Override
-	public FileBean getFileByCategoryService(String name,String category) {
-		return modelMapper.map(fileRepository.getFileByNameAndCategory(name,category), FileBean.class);
+	public List<FileBean> getFileByCategoryService(String name,String category) {
+		List <File> fileList =fileRepository.getFileByNameContainingAndCategory(name,category);
+		List <FileBean> fileBeans = fileList.stream().map((file)-> modelMapper.map(file, FileBean.class)).collect(Collectors.toList());
+		return fileBeans;
 	}
 	@Override
 	public FileBean getFileByAuthorService(String name,String author) {
@@ -35,4 +40,12 @@ public class FileService implements FileServiceInterface{
 		File savedFile = fileRepository.save(file);
 		return modelMapper.map(savedFile, FileBean.class);
 	}
+	
+	@Override
+	public List<FileBean> getFile(String name) {
+		List <File> fileList =fileRepository.getFileByNameContaining(name);
+		List <FileBean> fileBeans = fileList.stream().map((file)-> modelMapper.map(file, FileBean.class)).collect(Collectors.toList());
+		return fileBeans;
+	}
+	
 }
